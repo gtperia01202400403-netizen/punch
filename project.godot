@@ -11,7 +11,9 @@ config_version=5
 [application]
 
 config/name="Punch"
+run/main_scene="res://node_2d.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
+config/icon="uid://cduu0sg2aob52"
 
 [physics]
 
