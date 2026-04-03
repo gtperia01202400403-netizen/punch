@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://8un0mrv0nr3r"]
+
+[ext_resource type="Texture2D" uid="uid://b8cnvyrq5nih0" path="res://player/sprites/Monkey Forest Asset Pack/Props/Flower 1.png" id="1_ltu7i"]
+
+[sub_resource type="CurveTexture" id="CurveTexture_ltu7i"]
+
+[sub_resource type="Gradient" id="Gradient_14jvi"]
+colors = PackedColorArray(0.031078078, 0.97877026, 0.20538002, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_iayvf"]
+gradient = SubResource("Gradient_14jvi")
+
+[sub_resource type="Gradient" id="Gradient_ri6x3"]
+colors = PackedColorArray(0.4862745, 1, 0.7176471, 0.94509804, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_v8cnj"]
+gradient = SubResource("Gradient_ri6x3")
+
+[sub_resource type="CurveTexture" id="CurveTexture_e8lfh"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_14jvi"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(800, 60000, 100)
+inherit_velocity_ratio = -0.3
+direction = Vector3(0, -206, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 300.0
+angular_velocity_min = -200.00002
+angular_velocity_max = 199.99998
+gravity = Vector3(0, 98, 0)
+color = Color(1, 1, 0.89411765, 1)
+color_ramp = SubResource("GradientTexture1D_v8cnj")
+color_initial_ramp = SubResource("GradientTexture1D_iayvf")
+alpha_curve = SubResource("CurveTexture_ltu7i")
+emission_curve = SubResource("CurveTexture_e8lfh")
+turbulence_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" unique_id=1387775886]
+texture_filter = 1
+texture = ExtResource("1_ltu7i")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1612018224]
+amount = 1000
+lifetime = 3.76
+preprocess = 1.25
+speed_scale = 0.7
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_14jvi")

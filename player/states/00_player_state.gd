@@ -7,6 +7,10 @@ var next_state: PlayerState
 #region /// State reference
 @onready var idle: PlayerStateIdle = %Idle
 @onready var run: PlayerStateRun = %Run
+@onready var jump: PlayerStateJump = %Jump
+@onready var fall: PlayerStateFall = %Fall
+@onready var crouch: PlayerStateCrouch = %Crouch
+
 #endregion
 
 #What happens when this state is initialized?

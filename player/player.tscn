@@ -3,14 +3,117 @@
 [ext_resource type="Script" uid="uid://wfh34fco70tg" path="res://player/scripts/player.gd" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://dlap7xwugvvwd" path="res://player/states/idle.gd" id="2_g1dw6"]
 [ext_resource type="Script" uid="uid://ce85m5kx8k7u1" path="res://player/states/run.gd" id="3_yw30f"]
+[ext_resource type="Script" uid="uid://diho61f8yxaox" path="res://player/states/jump.gd" id="4_qjkh3"]
+[ext_resource type="Script" uid="uid://b4s8rg6eqm38n" path="res://player/states/fall.gd" id="5_g6k8r"]
+[ext_resource type="Script" uid="uid://c4ve2y6qgjnqn" path="res://player/states/crouch.gd" id="6_g6k8r"]
+[ext_resource type="Texture2D" uid="uid://bu0vubb0fya1l" path="res://player/sprites/Monkey Forest Asset Pack/Player/PlayerSheet.png" id="7_boad6"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kqu6x"]
-size = Vector2(18, 48)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_boad6"]
+radius = 8.0
+height = 44.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oul6g"]
-size = Vector2(16, 46)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rgyib"]
+radius = 8.0
+
+[sub_resource type="Animation" id="Animation_rgyib"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_boad6"]
+resource_name = "crouch"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.049999997, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_hg6s5"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_8t03j"]
+resource_name = "jump"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 0, 4, 0]
+}
+
+[sub_resource type="Animation" id="Animation_2ieo8"]
+resource_name = "run"
+length = 0.12
+loop_mode = 2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8t03j"]
+_data = {
+&"RESET": SubResource("Animation_rgyib"),
+&"crouch": SubResource("Animation_boad6"),
+&"idle": SubResource("Animation_hg6s5"),
+&"jump": SubResource("Animation_8t03j"),
+&"run": SubResource("Animation_2ieo8")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_boad6"]
+size = Vector2(16, 3)
 
 [node name="Player" type="CharacterBody2D" unique_id=816439678]
+z_index = 1
+position = Vector2(0, -2)
+collision_layer = 16
+collision_mask = 3
+floor_constant_speed = true
 script = ExtResource("1_oul6g")
 
 [node name="States" type="Node" parent="." unique_id=850742286]
@@ -24,14 +127,36 @@ script = ExtResource("2_g1dw6")
 unique_name_in_owner = true
 script = ExtResource("3_yw30f")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1564127206]
-position = Vector2(0, -24)
-texture = SubResource("PlaceholderTexture2D_kqu6x")
+[node name="Jump" type="Node" parent="States" unique_id=1843260866]
+unique_name_in_owner = true
+script = ExtResource("4_qjkh3")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=636868276]
-position = Vector2(0, -23)
-shape = SubResource("RectangleShape2D_oul6g")
+[node name="Fall" type="Node" parent="States" unique_id=791903705]
+unique_name_in_owner = true
+script = ExtResource("5_g6k8r")
+
+[node name="Crouch" type="Node" parent="States" unique_id=1914852284]
+unique_name_in_owner = true
+script = ExtResource("6_g6k8r")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1564127206]
+z_index = 1
+texture_filter = 1
+position = Vector2(0, -24)
+scale = Vector2(1.9999999, 2.2500002)
+texture = ExtResource("7_boad6")
+hframes = 5
+
+[node name="CollisionStand" type="CollisionShape2D" parent="." unique_id=636868276]
+position = Vector2(0, -24)
+shape = SubResource("CapsuleShape2D_boad6")
 debug_color = Color(0, 0.6, 0.69803923, 0.33333334)
+
+[node name="CollisionCrouch" type="CollisionShape2D" parent="." unique_id=1573185126]
+position = Vector2(0, -17)
+shape = SubResource("CapsuleShape2D_rgyib")
+disabled = true
+debug_color = Color(0.82956654, 0.88383234, 0.98822206, 0.33333334)
 
 [node name="Label" type="Label" parent="." unique_id=1896561702]
 offset_left = -58.0
@@ -41,3 +166,17 @@ offset_bottom = -49.0
 theme_override_font_sizes/font_size = 12
 text = "label"
 horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2110697003]
+libraries/ = SubResource("AnimationLibrary_8t03j")
+autoplay = &"jump"
+
+[node name="OneWayPlatformShapeCast" type="ShapeCast2D" parent="." unique_id=22813589]
+enabled = false
+shape = SubResource("RectangleShape2D_boad6")
+target_position = Vector2(0, 6)
+max_results = 12
+collision_mask = 2
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1281525969]
+position = Vector2(3, -32)
